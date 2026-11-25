@@ -196,16 +196,19 @@ class AnnuaireController extends Controller
         ]);
 
         if ($emailEntreprise) {
-            try {
-                Mail::raw(
+            // Envoyé après la réponse : le visiteur n'attend pas le serveur d'e-mail.
+            dispatch(function () use ($emailEntreprise, $data, $entreprise) {
+                try {
+                    Mail::raw(
                     "Bonjour,\n\nVous avez reçu un message via votre fiche Pratik ({$entreprise->TITRE}).\n\n"
                     ."De : {$data['nom']} ".($data['prenom'] ?? '')."\nTéléphone : {$data['contact']}\nE-mail : {$data['email']}\n"
                     ."Objet : {$data['objet']}\n\n{$data['message']}\n\n— Pratik, l'annuaire pratique de Côte d'Ivoire",
                     fn ($m) => $m->to($emailEntreprise)->replyTo($data['email'], $data['nom'])->subject('Pratik — '.$data['objet']),
-                );
-            } catch (\Throwable $e) {
-                Log::warning('Envoi du message entreprise impossible : '.$e->getMessage());
-            }
+                    );
+                } catch (\Throwable $e) {
+                    Log::warning('Envoi du message entreprise impossible : '.$e->getMessage());
+                }
+            })->afterResponse();
         }
 
         return $retour;

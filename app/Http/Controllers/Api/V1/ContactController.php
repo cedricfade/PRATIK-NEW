@@ -49,11 +49,15 @@ class ContactController extends Controller
         ]);
 
         if ($email) {
-            try {
-                Mail::to($email)->send(new NouveauMessageMail($message, $bien));
-            } catch (\Throwable $e) {
-                report($e); // le message reste consultable dans l'espace annonceur
-            }
+            // Envoyé après la réponse : le visiteur n'attend pas le serveur d'e-mail.
+            $mail = new NouveauMessageMail($message, $bien);
+            dispatch(function () use ($email, $mail) {
+                try {
+                    Mail::to($email)->send($mail);
+                } catch (\Throwable $e) {
+                    report($e); // le message reste consultable dans l'espace annonceur
+                }
+            })->afterResponse();
         }
 
         return response()->json(['message' => 'Votre message a été transmis à l\'annonceur. Il vous répondra par e-mail ou par téléphone.'], 201);
@@ -81,16 +85,20 @@ class ContactController extends Controller
         ]);
 
         if ($email) {
-            try {
-                Mail::raw(
+            // Envoyé après la réponse : le visiteur n'attend pas le serveur d'e-mail.
+            dispatch(function () use ($email, $data, $entreprise, $objet) {
+                try {
+                    Mail::raw(
                     "Bonjour,\n\nVous avez reçu un message via votre fiche Pratik ({$entreprise->TITRE}), depuis l'application mobile.\n\n"
                     ."De : {$data['nom']} ".($data['prenom'] ?? '')."\nTéléphone : {$data['telephone']}\nE-mail : {$data['email']}\n"
                     ."Objet : {$objet}\n\n{$data['message']}\n\n— Pratik, l'annuaire pratique de Côte d'Ivoire",
                     fn ($m) => $m->to($email)->replyTo($data['email'], $data['nom'])->subject('Pratik — '.$objet),
-                );
-            } catch (\Throwable $e) {
-                Log::warning('Envoi du message entreprise impossible : '.$e->getMessage());
-            }
+
+                    );
+                } catch (\Throwable $e) {
+                    Log::warning('Envoi du message entreprise impossible : '.$e->getMessage());
+                }
+            })->afterResponse();
         }
 
         return response()->json(['message' => 'Votre message a bien été transmis à '.$entreprise->TITRE.'.'], 201);

@@ -79,7 +79,7 @@
 <section class="card mt-8">
     <div class="border-b border-line px-5 py-4">
         <h2 class="font-sans text-base font-semibold">Bannières de l'accueil de l'application</h2>
-        <p class="mt-1 text-sm text-muted">Elles défilent en haut de l'écran d'accueil, au-dessus des catégories. Format paysage 1920 × 720 px, le même que les bannières du site. Un appui ouvre le lien : <code class="rounded bg-sand px-1">https://…</code> pour une page web, ou <code class="rounded bg-sand px-1">pratik://app/entreprise/lien-de-la-fiche</code>, <code class="rounded bg-sand px-1">pratik://app/bien/lien-du-bien</code>, <code class="rounded bg-sand px-1">pratik://app/immobilier</code> pour ouvrir un écran de l'app.</p>
+        <p class="mt-1 text-sm text-muted">Elles défilent en haut de l'écran d'accueil, au-dessus des catégories. Format portrait 1080 × 1350 px (4:5) : la bannière occupe tout le haut de l’écran d’accueil. Gardez le texte important au centre. Un appui ouvre le lien : <code class="rounded bg-sand px-1">https://…</code> pour une page web, ou <code class="rounded bg-sand px-1">pratik://app/entreprise/lien-de-la-fiche</code>, <code class="rounded bg-sand px-1">pratik://app/bien/lien-du-bien</code>, <code class="rounded bg-sand px-1">pratik://app/immobilier</code> pour ouvrir un écran de l'app.</p>
     </div>
 
     @if ($pubs->isNotEmpty())

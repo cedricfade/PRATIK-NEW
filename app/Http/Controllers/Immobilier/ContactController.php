@@ -90,11 +90,15 @@ class ContactController extends Controller
         ]);
 
         if ($emailAnnonceur) {
-            try {
-                Mail::to($emailAnnonceur)->send(new NouveauMessageMail($message, $bien));
-            } catch (\Throwable $e) {
-                report($e); // le message reste consultable dans l'espace annonceur
-            }
+            // Envoyé après la réponse : le visiteur n'attend pas le serveur d'e-mail.
+            $mail = new NouveauMessageMail($message, $bien);
+            dispatch(function () use ($emailAnnonceur, $mail) {
+                try {
+                    Mail::to($emailAnnonceur)->send($mail);
+                } catch (\Throwable $e) {
+                    report($e); // le message reste consultable dans l'espace annonceur
+                }
+            })->afterResponse();
         }
 
         return $retour->with('success', 'Votre message a été transmis à l\'annonceur. Il vous répondra par e-mail ou par téléphone.');
