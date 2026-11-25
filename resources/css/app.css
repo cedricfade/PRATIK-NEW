@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@plugin "@tailwindcss/forms";
+
+/*
+ * Pratik — palette tirée du logo : encre bleu-noir + point ambre.
+ * Immobilier garde le jaune "toit" de son logo.
+ */
+@theme {
+    --font-sans: 'Public Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Source Serif 4', ui-serif, Georgia, serif;
+
+    --color-ink: #14202b;
+    --color-ink-soft: #2b3a47;
+    --color-paper: #fbf8f3;
+    --color-sand: #f2ece2;
+    --color-line: #e6ded1;
+    --color-muted: #6b7280;
+
+    --color-amber: #eaa945; /* point du logo Pratik */
+    --color-amber-deep: #a8650e;
+    --color-amber-wash: #fcf1df;
+
+    --color-garde: #17724a;
+    --color-garde-wash: #e6f3ec;
+
+    --color-roof: #f2b31b; /* toit du logo Pratik Immobilier */
+    --color-roof-deep: #8a6300;
+
+    --color-danger: #b42318;
+
+    --radius-card: 0.625rem;
+
+    --shadow-card: 0 1px 0 rgb(20 32 43 / 0.04), 0 1px 3px rgb(20 32 43 / 0.06);
+    --shadow-lift: 0 10px 30px -12px rgb(20 32 43 / 0.25);
+}
+
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-paper font-sans text-[15px] leading-relaxed text-ink antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-title {
+        @apply font-serif tracking-tight text-ink;
+        font-optical-sizing: auto;
+    }
+
+    a {
+        @apply transition-colors;
+    }
+
+    ::selection {
+        background: var(--color-amber-wash);
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@utility container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Boutons */
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber disabled:opacity-50;
+}
+@utility btn-ink {
+    @apply btn bg-ink text-white hover:bg-ink-soft;
+}
+@utility btn-amber {
+    @apply btn bg-amber text-ink hover:brightness-95;
+}
+@utility btn-roof {
+    @apply btn bg-roof text-ink hover:brightness-95;
+}
+@utility btn-garde {
+    @apply btn bg-garde text-white hover:brightness-110;
+}
+@utility btn-line {
+    @apply btn border border-line bg-white text-ink hover:border-ink/30;
+}
+@utility btn-ghost {
+    @apply btn text-ink hover:bg-sand;
+}
+@utility btn-danger {
+    @apply btn bg-danger text-white hover:brightness-110;
+}
+@utility btn-sm {
+    @apply px-3! py-1.5! text-xs!;
+}
+
+/* Cartes */
+@utility card {
+    @apply rounded-[var(--radius-card)] border border-line bg-white shadow-[var(--shadow-card)];
+}
+@utility card-hover {
+    @apply transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)];
+}
+
+/* Formulaires */
+@utility label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+}
+@utility input {
+    @apply block w-full rounded-md border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-muted/70 focus:border-ink focus:ring-2 focus:ring-amber/40 focus:outline-none;
+}
+@utility input-error {
+    @apply mt-1 text-xs text-danger;
+}
+
+/* Textes */
+@utility eyebrow {
+    @apply text-xs font-semibold tracking-[0.14em] text-amber-deep uppercase;
+}
+@utility section-title {
+    @apply font-serif text-2xl font-semibold sm:text-3xl;
+}
+@utility prose-pratik {
+    @apply leading-7 text-ink/85 [&_a]:text-amber-deep [&_a]:underline [&_li]:ml-5 [&_ol]:list-decimal [&_p]:mb-4 [&_ul]:list-disc;
+}
+
+/* Étiquettes */
+@utility tag {
+    @apply inline-flex items-center gap-1 rounded-full border border-line bg-white px-2.5 py-0.5 text-xs font-medium text-ink/80;
+}
+@utility tag-amber {
+    @apply tag border-amber/40 bg-amber-wash text-amber-deep;
+}
+@utility tag-garde {
+    @apply tag border-garde/30 bg-garde-wash text-garde;
+}
+
+/* Liens soulignés à la façon "journal" */
+@utility link {
+    @apply underline decoration-line decoration-2 underline-offset-4 hover:decoration-amber;
+}
+
+/* Tableaux du backoffice */
+@utility table-admin {
+    @apply w-full text-left text-sm;
+}
+.table-admin thead th {
+    @apply border-b border-line bg-sand/60 px-3 py-2.5 text-xs font-semibold tracking-wide text-ink/70 uppercase;
+}
+.table-admin tbody td {
+    @apply border-b border-line/70 px-3 py-2.5 align-middle;
+}
+.table-admin tbody tr:hover {
+    @apply bg-paper;
+}
+
+/* Leaflet : popups aux couleurs du site */
+.leaflet-popup-content-wrapper {
+    border-radius: 0.5rem;
+}
+.leaflet-container {
+    font-family: var(--font-sans);
+}
