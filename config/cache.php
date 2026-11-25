@@ -150,6 +150,7 @@ return [
         App\Models\PeriodeGarde::class,
         App\Models\PharmacieGarde::class,
         App\Models\PhotoImmobilier::class,
+        App\Models\PubApp::class,
         App\Models\SourceNews::class,
         App\Models\SourceNewsWeb::class,
         App\Models\SousCategorie::class,

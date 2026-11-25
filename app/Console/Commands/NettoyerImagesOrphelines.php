@@ -34,7 +34,7 @@ class NettoyerImagesOrphelines extends Command
         'news_sources' => [['source_news_web', 'LOGO']],
         'papiers' => [['papier_administratif', 'IMAGE']],
         'pubs' => [['sous_categorie', 'PUBS']],
-        'heros' => [['parametres_site', 'valeur']],
+        'heros' => [['parametres_site', 'valeur'], ['pubs_app', 'image']],
     ];
 
     /** Fichiers partagés à ne jamais supprimer. */

@@ -29,3 +29,6 @@ Thumbs.db
 # Exports de la base de production (données sensibles, ne pas versionner ni déployer)
 /rs2187348_pratik*.sql
 /storage/app/corbeille-images
+
+# Images clients (logos, biens, unes, bannières) : elles vivent sur le serveur, jamais dans le dépôt
+/public/images/

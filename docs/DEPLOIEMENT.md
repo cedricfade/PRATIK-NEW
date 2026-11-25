@@ -19,6 +19,7 @@ gardent leurs mots de passe.
 | `2026_11_25_000400_convert_legacy_myisam_tables…` | Passe en InnoDB les quelques petites tables restées en MyISAM (`users`, `contacts`, `roles`…). Les données ne changent pas ; seul le moteur de stockage change (plus de tables « crashed », verrouillage par ligne). |
 | `2026_11_25_000500_create_parametres_site_table` | Nouvelle table des réglages (en-têtes des pages d'accueil, chiffres) gérés dans Admin › Apparence. |
 | `2026_11_25_000600_add_vues_bonus_to_entreprises` | Ajoute la colonne `VUES_BONUS` (0 par défaut) et la table `historique_vues` : vues ajoutées depuis Admin › Vues, séparées du compteur réel `COMPTEUR`. |
+| `2026_11_25_000700_create_pubs_app_table` | Nouvelle table des bannières publicitaires de l'application mobile (Admin › Apparence › Application mobile). |
 | `…_create_oauth_*` (Passport) | Crée les tables de jetons pour l'application mobile. |
 
 Aucune table, colonne ou ligne existante n'est supprimée ni renommée. Chaque migration vérifie ce

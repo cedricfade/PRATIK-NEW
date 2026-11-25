@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AccueilController;
 use App\Http\Controllers\Api\V1\AnnuaireController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\ImmobilierController;
+use App\Http\Controllers\Api\V1\LancementController;
 use App\Http\Controllers\Api\V1\MeController;
 use App\Http\Controllers\Api\V1\NewsController;
 use App\Http\Controllers\Api\V1\PapierController;
@@ -12,6 +15,7 @@ use App\Http\Controllers\Api\V1\Pro\MessageController;
 use App\Http\Controllers\Api\V1\Pro\StatistiqueController;
 use App\Http\Controllers\Api\V1\ReferenceController;
 use App\Http\Controllers\Api\V1\StatsController;
+use App\Http\Controllers\Api\V1\VolsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +42,11 @@ Route::prefix('v1')->name('api.')->group(function () {
     });
 
     // --- Données publiques ---
+    Route::get('/accueil', AccueilController::class)->middleware('throttle:api')->name('accueil');
+    Route::get('/lancement', LancementController::class)->middleware('throttle:api')->name('lancement');
+    Route::get('/vols', VolsController::class)->middleware('throttle:api')->name('vols');
+    Route::post('/immobilier/biens/{lien}/contact', [ContactController::class, 'bien'])->middleware('throttle:formulaires')->name('contact.bien');
+    Route::post('/annuaire/entreprises/{lien}/contact', [ContactController::class, 'entreprise'])->middleware('throttle:formulaires')->name('contact.entreprise');
     Route::middleware('throttle:api')->group(function () {
         Route::get('/communes', [ReferenceController::class, 'communes'])->name('communes');
 
@@ -81,5 +90,7 @@ Route::prefix('v1')->name('api.')->group(function () {
         Route::delete('/biens/{bien}/photos/{photo}', [BienController::class, 'destroyPhoto'])->whereNumber(['bien', 'photo'])->name('biens.photos.destroy');
         Route::get('/statistiques', StatistiqueController::class)->name('statistiques');
         Route::get('/messages', MessageController::class)->name('messages');
+        Route::get('/messages/{id}', [MessageController::class, 'show'])->whereNumber('id')->name('messages.show');
+        Route::post('/messages/{id}/repondre', [MessageController::class, 'repondre'])->whereNumber('id')->name('messages.repondre');
     });
 });

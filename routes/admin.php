@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnnonceurController;
+use App\Http\Controllers\Admin\AppMobileController;
 use App\Http\Controllers\Admin\ApparenceController;
 use App\Http\Controllers\Admin\BienController;
 use App\Http\Controllers\Admin\CategorieController;
@@ -95,6 +96,11 @@ Route::post('/vues/ajouter', [VuesController::class, 'ajouter'])->name('vues.ajo
 Route::post('/vues/remise-a-zero', [VuesController::class, 'remettreAZero'])->name('vues.zero');
 
 // --- Apparence : heros des pages d'accueil, chiffres ---
+Route::get('/apparence/application', [AppMobileController::class, 'edit'])->name('apparence.application');
+Route::put('/apparence/application', [AppMobileController::class, 'update'])->name('apparence.application.update');
+Route::post('/apparence/application/pubs', [AppMobileController::class, 'storePub'])->name('apparence.pubs.store');
+Route::put('/apparence/application/pubs/{pub}', [AppMobileController::class, 'updatePub'])->whereNumber('pub')->name('apparence.pubs.update');
+Route::delete('/apparence/application/pubs/{pub}', [AppMobileController::class, 'destroyPub'])->whereNumber('pub')->name('apparence.pubs.destroy');
 Route::get('/apparence', [ApparenceController::class, 'index'])->name('apparence.index');
 Route::put('/apparence/{page}', [ApparenceController::class, 'update'])->whereIn('page', ['accueil', 'immobilier'])->name('apparence.update');
 

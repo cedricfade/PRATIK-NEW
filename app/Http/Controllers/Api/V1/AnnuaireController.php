@@ -105,6 +105,9 @@ class AnnuaireController extends Controller
             ->with([
                 'annuaire.photos:ID,ANNUAIRE_ID,IMAGE',
                 'annuaire.departements',
+                'annuaire.succursales:ID,ENTREPRISE_ID,SIEGE_ID,ADRESSE,TEL_1,CEL_1',
+                'annuaire.succursales.entreprise:ID,TITRE,LIEN,COMMUNE_ID',
+                'annuaire.succursales.entreprise.commune:ID,DESIGNATION,LIEN',
                 'commune:ID,DESIGNATION,LIEN',
                 'sousCategories:sous_categorie.ID,sous_categorie.CATEGORIE_ID,sous_categorie.DESIGNATION,sous_categorie.LIEN',
                 'sousCategories.categorie:ID,DESIGNATION,LIEN',

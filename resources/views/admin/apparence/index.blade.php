@@ -7,15 +7,9 @@
 @endphp
 
 @section('content')
-<div class="mb-5 flex flex-wrap items-center gap-2">
-    @foreach (\App\Support\Hero::PAGES as $cle => $libelle)
-        <a href="{{ route('admin.apparence.index', ['page' => $cle]) }}" @class([
-            'rounded-md px-3 py-2 text-sm font-medium',
-            'bg-ink text-white' => $page === $cle,
-            'bg-white text-ink/70 ring-1 ring-line hover:text-ink' => $page !== $cle,
-        ])>{{ $libelle }}</a>
-    @endforeach
-    <a href="{{ $page === 'immobilier' ? route('immo.home') : route('home') }}" target="_blank" class="ml-auto inline-flex items-center gap-1.5 text-sm text-muted hover:text-ink">
+<div class="flex items-start justify-between gap-3">
+    @include('admin.apparence._onglets', ['actif' => $page])
+    <a href="{{ $page === 'immobilier' ? route('immo.home') : route('home') }}" target="_blank" class="mt-2 inline-flex shrink-0 items-center gap-1.5 text-sm text-muted hover:text-ink">
         Voir la page <x-icon name="external" class="size-3.5" />
     </a>
 </div>

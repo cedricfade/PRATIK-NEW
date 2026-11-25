@@ -19,6 +19,7 @@ class MessageResource extends ApiResource
             'message' => $this->contactmessage,
             'reponse' => self::texte($this->reponse),
             'lu' => $this->est_lu,
+            'repondu' => (int) $this->status === 2 || filled($this->reponse),
             'recu_le' => self::dateHeure($this->created_at),
         ];
     }

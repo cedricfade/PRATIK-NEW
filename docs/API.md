@@ -131,6 +131,12 @@ Le paramètre `commune` accepte le **lien** (`cocody`, `port-bouet`) ou l'**ID**
 
 Limite : 120 requêtes par minute par appareil.
 
+### Accueil de l'application
+
+| Méthode | Chemin | Paramètres | Réponse |
+|---|---|---|---|
+| GET | `/accueil` | — | `hero` et `hero_immobilier` (image de fond + textes réglés dans Admin › Apparence : `image_url`, `image_mobile_url`, `affichage` `photo`/`banniere`, `cadrage`, `voile` 0–0,9, `surtitre`, `titre`, `titre_accent`, `texte`), `chiffres` (entreprises, biens, ventes, locations, pharmacies, visiteurs, `afficher`), `partenaires` (12 pros VIP avec logo, au hasard), `derniers_biens` (6) |
+
 ### Référentiels
 
 | Méthode | Chemin | Paramètres | Description |
@@ -314,6 +320,26 @@ Une annonce non validée renvoie `404`, sauf pour son auteur ou un administrateu
 
 Annonceur : `{id, entreprise_id, nom, lien, logo_url, commune, telephones, emails, nombre_biens}`.
 
+
+### Écrire à une entreprise ou à un annonceur
+
+| Méthode | Chemin | Champs | Réponse |
+|---|---|---|---|
+| POST | `/immobilier/biens/{lien}/contact` | `nom`, `prenom`?, `telephone`, `email`, `message` (10 car. min.) | `201` + `message` de confirmation. L'annonceur le reçoit par e-mail et dans son espace. |
+| POST | `/annuaire/entreprises/{lien}/contact` | mêmes champs + `objet`? | `201` + `message` de confirmation |
+
+Limité à 5 envois par minute et par adresse IP (`429` au-delà).
+
+### Application : lancement, accueil, vols
+
+| Méthode | Chemin | Réponse |
+|---|---|---|
+| GET | `/lancement` | `{data: {pub: null}}` ou `{data: {pub: {image_url, lien, duree, fin, version}}}` : publicité plein écran à l'ouverture (Admin › Apparence › Application mobile) |
+| GET | `/vols` | `aeroport` (ABJ par défaut), `date` (J-1 à J+2) → `departs`, `arrivees` (numero, compagnie, heure, heure_revisee, ville, iata, terminal, porte, statut), `aeroports`, `indisponible` |
+
+La réponse de `/accueil` contient aussi `pubs` : bannières du carrousel (`image_url`, `lien` en `https://…` ou `pratik://app/<écran>`, `titre`).
+La fiche `/annuaire/entreprises/{lien}` contient `succursales` (titre, lien, commune, adresse, telephone).
+
 ### Statistiques de clic
 
 Quand l'utilisateur touche « Appeler » ou « Écrire » sur une fiche, prévenez l'API : ces chiffres alimentent les statistiques des annonceurs.
@@ -340,7 +366,9 @@ Un visiteur reçoit `403`. Un annonceur ne voit et ne modifie que **ses** annonc
 | DELETE | `/pro/biens/{id}` | Supprimer l'annonce, ses photos et ses fichiers → `204` |
 | DELETE | `/pro/biens/{id}/photos/{photo_id}` | Retirer une photo de la galerie → `204` |
 | GET | `/pro/statistiques` | Vues, appels, e-mails (`?annee=2026`) |
-| GET | `/pro/messages` | Demandes reçues des internautes, paginées |
+| GET | `/pro/messages` | Demandes reçues des internautes, paginées (`?statut=non_lus`) |
+| GET | `/pro/messages/{id}` | Détail d'un message ; il est marqué comme lu |
+| POST | `/pro/messages/{id}/repondre` | `reponse` → enregistrée et envoyée par e-mail à l'internaute (`email_envoye` indique si l'e-mail est parti) |
 
 ### Champs d'une annonce
 

@@ -23,7 +23,11 @@ class PasswordController extends Controller
     {
         $request->validate(['email' => ['required', 'email']]);
 
-        Password::sendResetLink($request->only('email'));
+        try {
+            Password::sendResetLink($request->only('email'));
+        } catch (\Throwable $e) {
+            report($e); // serveur d'e-mail indisponible : l'erreur est journalisée, la page ne plante pas
+        }
 
         // Message identique que le compte existe ou non (pas de fuite d'informations).
         return back()->with('status', 'Si un compte existe pour cette adresse, un lien de réinitialisation vient d\'être envoyé.');

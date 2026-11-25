@@ -673,6 +673,23 @@ CREATE TABLE `photo_immobilier` (
   KEY `pk_photo_immobilier_bien` (`IMMOBILIER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `pubs_app`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pubs_app` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `titre` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lien` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ordre` smallint unsigned NOT NULL DEFAULT '0',
+  `actif` tinyint(1) NOT NULL DEFAULT '1',
+  `debut` date DEFAULT NULL,
+  `fin` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `quartiers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -957,3 +974,4 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (11,'2026_11_25_000
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (12,'2026_11_25_000400_convert_legacy_myisam_tables_to_innodb',4);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (13,'2026_11_25_000500_create_parametres_site_table',5);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (14,'2026_11_25_000600_add_vues_bonus_to_entreprises',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (15,'2026_11_25_000700_create_pubs_app_table',7);

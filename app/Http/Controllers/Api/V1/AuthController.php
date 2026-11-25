@@ -72,7 +72,11 @@ class AuthController extends Controller
     {
         $request->validate(['email' => ['required', 'email']]);
 
-        Password::sendResetLink($request->only('email'));
+        try {
+            Password::sendResetLink($request->only('email'));
+        } catch (\Throwable $e) {
+            report($e); // serveur d'e-mail indisponible : même réponse, l'erreur est journalisée
+        }
 
         return response()->json([
             'message' => 'Si un compte existe pour cette adresse, un lien de réinitialisation vient d\'être envoyé.',

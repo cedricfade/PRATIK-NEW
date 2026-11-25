@@ -55,6 +55,17 @@ class EntrepriseDetailResource extends ApiResource
                 'telephone' => self::texte($d->TEL) ?? self::texte($d->CEL),
                 'email' => self::texte($d->EMAIL),
             ])->values() : [],
+            // Agences et succursales rattachées à cette entreprise (siège).
+            'succursales' => $a ? $a->succursales
+                ->filter(fn ($s) => $s->entreprise && $s->entreprise->LIEN && (int) $s->ENTREPRISE_ID !== (int) $this->ID)
+                ->take(30)
+                ->map(fn ($s) => [
+                    'titre' => $s->entreprise->TITRE,
+                    'lien' => $s->entreprise->LIEN,
+                    'commune' => $s->entreprise->commune?->DESIGNATION,
+                    'adresse' => self::texte($s->ADRESSE),
+                    'telephone' => self::texte($s->TEL_1) ?? self::texte($s->CEL_1),
+                ])->values() : [],
             'thematiques' => $this->sousCategories->map(fn ($s) => [
                 'id' => $s->ID,
                 'designation' => $s->DESIGNATION,
